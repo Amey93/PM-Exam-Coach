@@ -612,6 +612,7 @@ const MOTIVATIONAL = [
 let cert='PMP', domain='People';
 let selOpt=null, correctA=null;
 let qUsed=5, qStats={correct:0,total:0};
+let questionIndex = 0;
 
 // Exam state
 let examQs=[], examCur=0, examCorrect=0, examTotal=5;
@@ -664,53 +665,45 @@ Return ONLY this JSON (no markdown, no extra text):
 
 // ── PRACTICE Q GENERATION ────────────────────────────────────────────────────
 async function genQ(){
-  // TEMP TEST MODE (no API needed)
-const testMode = true;
 
-if(testMode){
-  const sampleQuestions = [
-  {
-    question: "Ravi is managing a project where stakeholders keep changing requirements. What should he do first?",
-    options: [
-      "Reject all changes immediately",
-      "Update project plan without discussion",
-      "Engage stakeholders to understand the change",
-      "Escalate to senior management"
-    ],
-    correct: 2,
-    difficulty: "Medium",
-    explanation: "1. Engage stakeholders is correct because collaboration is key.\n2. Rejecting or escalating early is reactive.\n3. This tests stakeholder management.\n4. Trap is acting without understanding.\n5. Tip: Always communicate first."
-  },
-  {
-    question: "A project is facing team conflicts. What should the project manager do?",
-    options: [
-      "Ignore the conflict",
-      "Replace team members",
-      "Facilitate discussion",
-      "Escalate immediately"
-    ],
-    correct: 2,
-    difficulty: "Medium",
-    explanation: "1. Facilitate discussion is correct.\n2. Ignoring or replacing is not ideal.\n3. Tests conflict management.\n4. Trap is avoiding people issues.\n5. Tip: Address conflicts early."
-  },
-  {
-    question: "A risk occurs during execution. What is the first step?",
-    options: [
-      "Ignore it",
-      "Update risk register",
-      "Implement response plan",
-      "Escalate"
-    ],
-    correct: 2,
-    difficulty: "Medium",
-    explanation: "1. Implement response plan is correct.\n2. Documentation comes later.\n3. Tests risk management.\n4. Trap is documenting before acting.\n5. Tip: Act first, document later."
+  const testMode = true;
+
+  if(testMode){
+
+    const sampleQuestions = [
+      {
+        question: "A project manager is handling a project where stakeholders frequently request changes. What should be done first?",
+        options: [
+          "Reject all changes immediately",
+          "Update project plan without discussion",
+          "Engage stakeholders to understand the change",
+          "Escalate to senior management"
+        ],
+        correct: 2,
+        difficulty: "Medium",
+        explanation: "1. Engaging stakeholders is correct...\n2. Rejecting is reactive...\n3. Tests stakeholder management...\n4. Trap is reacting quickly...\n5. Tip: Communicate first."
+      },
+      {
+        question: "A project is facing internal team conflicts. What should the project manager do?",
+        options: [
+          "Ignore the conflict",
+          "Replace team members",
+          "Facilitate discussion",
+          "Escalate immediately"
+        ],
+        correct: 2,
+        difficulty: "Medium",
+        explanation: "1. Facilitate discussion is correct...\n2. Ignoring is wrong...\n3. Tests conflict management...\n4. Trap is avoiding issues...\n5. Tip: Address early."
+      }
+    ];
+
+    // ✅ FIXED SEQUENTIAL FLOW
+    const q = sampleQuestions[questionIndex];
+    questionIndex = (questionIndex + 1) % sampleQuestions.length;
+
+    renderQ(q);
+    return;
   }
-];
-
-const q = sampleQuestions[Math.floor(Math.random() * sampleQuestions.length)];
-
-  renderQ(q);
-  return;
 }
 
   if(qUsed>=FREE_LIMIT){openUpgrade();return;}
@@ -737,19 +730,34 @@ const q = sampleQuestions[Math.floor(Math.random() * sampleQuestions.length)];
     if(e.message!=='NO_KEY'&&e.message!=='BAD_KEY') showErr('Could not generate question.',e.message);
   }
   document.getElementById('gen-btn').disabled=false;
-}
+
 
 function renderQ(q){
-  correctA=q.correct;
-  const dc=q.difficulty==='Hard'?'dif-hard':q.difficulty==='Easy'?'dif-easy':'dif-medium';
-  document.getElementById('q-meta').innerHTML=`<span class="qtag cert">${cert}</span><span class="qtag dom">${domain}</span><span class="qtag ${dc}">${q.difficulty}</span><span class="qtag real">Exam-style</span>`;
-  document.getElementById('q-text').textContent=q.question;
-  const L=['A','B','C','D'];
-  document.getElementById('q-opts').innerHTML=q.options.map((o,i)=>`<div class="opt" id="opt-${i}" onclick="selO(${i})"><div class="ol">${L[i]}</div><div>${o}</div></div>`).join('');
-  document.getElementById('q-exp-txt').innerHTML = formatExplanation(q.explanation);
-  document.getElementById('q-exp-ref').textContent=`📌 ${q.framework_ref||''} ${q.exam_tip?'· Tip: '+q.exam_tip:''}`;
-  S('q-card','block');
-  document.getElementById('sub-btn').disabled=true;
+
+  correctA = q.correct;
+  selOpt = null;
+
+  document.getElementById('q-text').textContent = q.question;
+
+  const L = ['A','B','C','D'];
+
+  document.getElementById('q-opts').innerHTML = q.options.map((o,i)=>`
+    <div class="opt" id="opt-${i}" onclick="selO(${i})">
+      <div class="ol">${L[i]}</div>
+      <div>${o}</div>
+    </div>
+  `).join('');
+
+  // ✅ FIX: HIDE explanation initially
+  document.getElementById('q-exp').style.display = 'none';
+
+  // ✅ FIX: RESET BUTTONS
+  document.getElementById('sub-btn').style.display = 'inline-block';
+  document.getElementById('sub-btn').disabled = true;
+
+  document.getElementById('nxt-btn').style.display = 'none';
+
+  document.getElementById('q-card').style.display = 'block';
 }
 
 function selO(i){
@@ -784,7 +792,10 @@ if(ok){
     else if(i===selOpt&&i!==correctA)o.classList.add('wrong');
     o.classList.add('locked'); o.style.pointerEvents='none';
   });
-  document.getElementById('q-exp').style.display='block';
+  document.getElementById('q-exp').style.display = 'block';
+document.getElementById('sub-btn').style.display = 'none';
+document.getElementById('nxt-btn').style.display = 'inline-flex';
+  
   document.getElementById('q-exp-txt').insertAdjacentHTML(
   'afterbegin',
   `<div style="margin-bottom:10px;font-weight:600;">${feedbackMsg}</div>`
