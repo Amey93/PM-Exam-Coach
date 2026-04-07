@@ -706,30 +706,7 @@ async function genQ(){
   }
 }
 
-  if(qUsed>=FREE_LIMIT){openUpgrade();return;}
-  selOpt=null; correctA=null;
-  hideErr();
-  // Show skeleton immediately — feels responsive
-  S('q-skel','block'); S('q-card','none'); S('prac-motiv','none');
-  document.getElementById('q-tip').textContent=TIPS[Math.floor(Math.random()*TIPS.length)];
-  document.getElementById('gen-btn').disabled=true;
-  document.getElementById('nxt-btn').style.display='none';
-  document.getElementById('q-exp').style.display='none';
-  document.getElementById('q-band').style.display='none';
-  document.getElementById('q-ready').style.display='none';
-
-  try{
-    const q=await callAPI(buildPrompt(cert,domain));
-    qUsed++;
-    document.getElementById('q-used').textContent=`${qUsed} of ${FREE_LIMIT}`;
-    document.getElementById('sb-usage').textContent=`${qUsed} / ${FREE_LIMIT} Qs used today`;
-    S('q-skel','none');
-    renderQ(q);
-  }catch(e){
-    S('q-skel','none');
-    if(e.message!=='NO_KEY'&&e.message!=='BAD_KEY') showErr('Could not generate question.',e.message);
-  }
-  document.getElementById('gen-btn').disabled=false;
+ 
 
 
 function renderQ(q){
