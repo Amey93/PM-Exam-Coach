@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PM Exam Coach — PMP & PRINCE2 Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0b0d12;--bg2:#111318;--bg3:#181b22;--card:#1c1f28;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
+  --text:#e9ebf2;--muted:#6b738f;--muted2:#3d4255;
+  --gold:#f0c040;--gold2:#d4a520;--gold-bg:rgba(240,192,64,0.08);
+  --teal:#2dd4bf;--teal2:#0d9488;--teal-bg:rgba(45,212,191,0.07);
+  --coral:#f87171;--coral-bg:rgba(248,113,113,0.08);
+  --green:#4ade80;--green-bg:rgba(74,222,128,0.08);
+  --blue:#60a5fa;--blue-bg:rgba(96,165,250,0.08);
+  --purple:#a78bfa;--purple-bg:rgba(167,139,250,0.08);
+  --amber:#fbbf24;--amber-bg:rgba(251,191,36,0.08);
+  --font-d:'Playfair Display',serif;--font-b:'Outfit',sans-serif;
+  --r:10px;--rl:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh}
+.app{display:flex;min-height:100vh}
+.sidebar{width:236px;background:var(--bg2);border-right:1px solid var(--border);padding:22px 14px;display:flex;flex-direction:column;gap:4px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.logo{padding:4px 10px 20px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.logo-name{font-family:var(--font-d);font-size:19px;color:var(--gold);font-style:italic}
+.logo-sub{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:1px}
+.nav-sec{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);padding:14px 10px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--muted);transition:all .15s;border:1px solid transparent}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--gold-bg);color:var(--gold);border-color:rgba(240,192,64,0.18);font-weight:500}
+.ni{font-size:15px;width:18px;text-align:center}
+.plan-box{margin-top:auto;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:14px}
+.plan-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.plan-val{font-size:14px;font-weight:600;color:var(--gold);margin:3px 0 10px}
+.up-btn{width:100%;padding:9px;background:var(--gold);color:#000;border:none;border-radius:7px;font-family:var(--font-b);font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.up-btn:hover{background:var(--gold2)}
+.main{margin-left:236px;flex:1;padding:32px 40px;max-width:860px}
+.screen{display:none;animation:fi .2s ease}
+.screen.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.ph{margin-bottom:28px}
+.pt{font-family:var(--font-d);font-size:28px;line-height:1.2}
+.pt em{color:var(--gold);font-style:italic}
+.ps{color:var(--muted);font-size:13.5px;margin-top:5px}
+.ctabs{display:flex;gap:8px;margin-bottom:20px}
+.ctab{padding:7px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;border:1px solid var(--border2);background:var(--card);color:var(--muted);transition:.15s}
+.ctab:hover{border-color:var(--gold);color:var(--gold)}
+.ctab.active{background:var(--gold-bg);border-color:rgba(240,192,64,0.3);color:var(--gold)}
+.bv{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;background:rgba(240,192,64,0.15);color:var(--gold);margin-left:6px;font-weight:400}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.dcard{padding:13px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);cursor:pointer;transition:.15s;text-align:center}
+.dcard:hover,.dcard.active{border-color:var(--teal);background:var(--teal-bg)}
+.dico{font-size:22px;margin-bottom:5px}
+.dnm{font-size:12px;font-weight:600}
+.dpct{font-size:11px;color:var(--muted);margin-top:2px}
+.gbtn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--teal);color:#000;border:none;border-radius:var(--r);font-family:var(--font-b);font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.gbtn:hover{background:var(--teal2);transform:translateY(-1px)}
+.gbtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.gbtn.gold{background:var(--gold);color:#000}.gbtn.gold:hover{background:var(--gold2)}
+.gbtn.ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}.gbtn.ghost:hover{background:var(--bg3)}
+.flbar{background:var(--card);border:1px solid rgba(248,113,113,0.2);border-radius:var(--r);padding:11px 16px;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.flbar .flt{font-size:13px;color:var(--muted);flex:1}
+.flbar .flt strong{color:var(--coral)}
+.flup{padding:6px 14px;background:var(--gold);color:#000;border:none;border-radius:6px;font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer}
+.ibox{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:13px 16px;margin-bottom:18px;font-size:13px;color:var(--muted);line-height:1.6}
+.ibox .ih{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);font-weight:600;margin-bottom:5px}
+.ibox strong{color:var(--text)}
+.qcard{background:var(--card);border:1px solid var(--border2);border-radius:var(--rl);padding:24px;margin-top:22px}
+.qmeta{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.qtag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;border:1px solid var(--border2);color:var(--muted)}
+.qtag.cert{background:var(--purple-bg);border-color:rgba(167,139,250,0.25);color:var(--purple)}
+.qtag.dom{background:var(--teal-bg);border-color:rgba(45,212,191,0.25);color:var(--teal)}
+.qtag.med{background:var(--amber-bg);border-color:rgba(251,191,36,0.25);color:var(--amber)}
+.qtag.hard{background:var(--coral-bg);border-color:rgba(248,113,113,0.25);color:var(--coral)}
+.qtag.easy{background:var(--green-bg);border-color:rgba(74,222,128,0.25);color:var(--green)}
+.qtext{font-size:15.5px;line-height:1.65;margin-bottom:20px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;border:1px solid var(--border2);border-radius:9px;background:var(--bg3);cursor:pointer;transition:.15s;font-size:14px}
+.opt:hover{border-color:var(--blue);background:var(--blue-bg)}
+.opt.sel{border-color:var(--blue);background:var(--blue-bg)}
+.opt.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.opt.wrong{border-color:var(--coral);background:var(--coral-bg);color:var(--coral)}
+.opt.locked{cursor:default;pointer-events:none}
+.ol{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;color:var(--muted);transition:.15s}
+.opt.sel .ol{border-color:var(--blue);color:var(--blue)}
+.opt.correct .ol{border-color:var(--green);color:var(--green);background:rgba(74,222,128,0.15)}
+.opt.wrong .ol{border-color:var(--coral);color:var(--coral);background:rgba(248,113,113,0.15)}
+.srow{display:flex;gap:10px;margin-top:18px;align-items:center;flex-wrap:wrap}
+.sbtn{padding:10px 22px;background:var(--gold);color:#000;border:none;border-radius:8px;font-family:var(--font-b);font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.sbtn:hover{background:var(--gold2)}.sbtn:disabled{opacity:.4;cursor:not-allowed}
+.nxbtn{padding:10px 22px;background:transparent;color:var(--teal);border:1px solid var(--teal);border-radius:8px;font-family:var(--font-b);font-size:13px;font-weight:500;cursor:pointer;transition:.15s;display:none}
+.nxbtn:hover{background:var(--teal-bg)}
+.expbox{margin-top:18px;padding:16px;background:var(--bg2);border-radius:9px;border-left:3px solid var(--teal);display:none}
+.exp-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--teal);margin-bottom:6px;font-weight:600}
+.exp-txt{font-size:13.5px;color:var(--text);line-height:1.68}
+.readiness{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:14px;margin-top:14px;display:none}
+.rd-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+.rd-bar{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;margin-bottom:5px}
+.rd-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.rd-txt{font-size:12px;color:var(--muted)}
+.band-result{margin-top:16px;padding:16px;background:var(--bg2);border-radius:9px;border-left:3px solid var(--gold);display:none}
+.band-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--gold);margin-bottom:10px;font-weight:600}
+.band-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;padding:7px 10px;border-radius:6px;background:var(--bg3);margin-bottom:5px}
+.band-chip{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:600}
+.bAT{background:rgba(74,222,128,0.15);color:var(--green);border:1px solid rgba(74,222,128,0.3)}
+.bT{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(96,165,250,0.3)}
+.bBT{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(251,191,36,0.3)}
+.bNI{background:var(--coral-bg);color:var(--coral);border:1px solid rgba(248,113,113,0.3)}
+.motiv{background:rgba(240,192,64,0.05);border:1px solid rgba(240,192,64,0.15);border-radius:var(--rl);padding:22px;margin-top:20px;display:none}
+.motiv-quote{font-family:var(--font-d);font-size:18px;font-style:italic;color:var(--gold);line-height:1.4;margin-bottom:6px}
+.motiv-attr{font-size:12px;color:var(--muted);margin-bottom:14px}
+.motiv-msg{font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;padding:13px;background:var(--bg2);border-radius:8px;border-left:3px solid var(--teal)}
+.motiv-tips{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.motiv-tip{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--muted)}
+.motiv-tip span{color:var(--teal);flex-shrink:0}
+.esetup{background:var(--card);border:1px solid var(--border2);border-radius:var(--rl);padding:26px}
+.esetup h3{font-family:var(--font-d);font-size:21px;margin-bottom:16px;color:var(--gold);font-style:italic}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.sf label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:5px}
+.sf select{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--font-b);font-size:13.5px;outline:none;transition:.15s}
+.sf select:focus{border-color:var(--teal)}
+.sf select option{background:var(--bg2)}
+.erun{display:none}
+.ehdr{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:13px 18px;margin-bottom:16px}
+.eprog{font-size:13px;color:var(--muted)}
+.eprog strong{color:var(--text)}
+.etimer{font-family:var(--font-d);font-size:22px;color:var(--gold)}
+.etimer.warn{color:var(--coral);animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.pbar{height:3px;background:var(--border2);border-radius:2px;margin-bottom:18px;overflow:hidden}
+.pfill{height:100%;background:var(--teal);border-radius:2px;transition:width .4s}
+.eq-status{font-size:12px;color:var(--muted2);text-align:right;margin-top:10px;font-style:italic}
+.review-section{display:none}
+.review-header{background:var(--card);border:1px solid var(--border2);border-radius:var(--rl);padding:28px;margin-bottom:24px}
+.review-score-row{display:flex;align-items:flex-end;gap:20px;margin-bottom:20px}
+.rscore-big{font-family:var(--font-d);font-size:56px;font-style:italic;line-height:1}
+.rscore-big.pass{color:var(--green)}.rscore-big.fail{color:var(--coral)}
+.rverdict{font-size:18px;font-weight:600;margin-bottom:4px}
+.rverdict.pass{color:var(--green)}.rverdict.fail{color:var(--coral)}
+.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.rstat{background:var(--bg3);border-radius:var(--r);padding:13px;text-align:center}
+.rstat-val{font-family:var(--font-d);font-size:26px;font-style:italic}
+.rstat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.band-table{width:100%;border-collapse:collapse;font-size:13.5px;margin:16px 0}
+.band-table th{text-align:left;padding:8px 12px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);font-weight:500}
+.band-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.band-table tr:last-child td{border:none}
+.review-qs{display:flex;flex-direction:column;gap:20px}
+.rq-item{background:var(--card);border:1px solid var(--border2);border-radius:var(--rl);padding:20px}
+.rq-num{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.rq-text{font-size:14.5px;line-height:1.6;margin-bottom:14px}
+.rq-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.rq-opt{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border-radius:8px;font-size:13.5px;border:1px solid var(--border)}
+.rq-opt.correct{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.rq-opt.wrong{border-color:var(--coral);background:var(--coral-bg);color:var(--coral)}
+.rq-ol{width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px}
+.rq-exp{font-size:13px;color:var(--text);line-height:1.65;padding:12px 14px;background:var(--bg2);border-radius:8px;border-left:3px solid var(--teal)}
+.rq-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600;margin-bottom:10px}
+.rq-badge.correct{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,222,128,0.3)}
+.rq-badge.wrong{background:var(--coral-bg);color:var(--coral);border:1px solid rgba(248,113,113,0.3)}
+.stitle{font-family:var(--font-d);font-size:17px;font-style:italic;color:var(--muted);margin-bottom:14px}
+.sep{height:1px;background:var(--border);margin:20px 0}
+.dgrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.dsc{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:18px;position:relative;overflow:hidden}
+.dsc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.dsc.gold::before{background:var(--gold)}.dsc.teal::before{background:var(--teal)}.dsc.purple::before{background:var(--purple)}
+.dc-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.dc-val{font-family:var(--font-d);font-size:34px;font-style:italic;margin:4px 0}
+.dc-sub{font-size:12px;color:var(--muted)}
+.actrow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);font-size:13.5px}
+.actrow:last-child{border:none}
+.actl{display:flex;align-items:center;gap:10px}
+.adot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.actr{color:var(--muted);font-size:12px}
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.acc-card{background:var(--bg3);border-radius:var(--r);padding:14px;border:1px solid var(--border)}
+.acc-cert{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.acc-dom{display:flex;justify-content:space-between;font-size:13px;padding:4px 0}
+.cinwrap{background:var(--card);border:1px solid var(--border2);border-radius:var(--rl);padding:20px;margin-bottom:14px}
+.cinwrap label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:8px}
+.tinput{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;color:var(--text);font-family:var(--font-b);font-size:14.5px;outline:none;transition:.15s}
+.tinput:focus{border-color:var(--teal)}
+.qtopics{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.qtop{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);font-size:12px;color:var(--muted);cursor:pointer;transition:.15s;background:var(--bg3)}
+.qtop:hover{border-color:var(--purple);color:var(--purple)}
+.coutput{background:var(--card);border:1px solid var(--border2);border-radius:var(--rl);padding:24px;display:none}
+.coutput h3{font-family:var(--font-d);font-size:21px;color:var(--gold);font-style:italic;margin-bottom:14px}
+.cbody{font-size:14px;line-height:1.75;white-space:pre-line}
+.exp-loading{display:none;padding:20px;text-align:center;color:var(--muted);font-size:13.5px}
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(5px)}
+.mov.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rl);padding:36px;max-width:510px;width:90%;animation:su .2s ease;position:relative}
+@keyframes su{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.modal h2{font-family:var(--font-d);font-size:26px;color:var(--gold);font-style:italic;margin-bottom:5px}
+.modal p{color:var(--muted);font-size:13.5px;margin-bottom:22px}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.plan{border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:.15s;background:var(--card)}
+.plan:hover,.plan.feat{border-color:var(--gold)}
+.plan.feat{background:var(--gold-bg)}
+.plan-price{font-family:var(--font-d);font-size:24px;color:var(--gold);font-style:italic}
+.plan-per{font-size:11px;color:var(--muted)}
+.plan-nm{font-size:13px;font-weight:600;margin:7px 0 10px}
+.plan-fs{list-style:none;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.plan-fs li::before{content:'✓ ';color:var(--green);font-weight:600}
+.mc{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:19px;cursor:pointer;padding:4px 8px}
+.keyscreen{position:fixed;inset:0;background:#0b0d12;display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+.keybox{background:#1c1f28;border:1px solid rgba(255,255,255,0.11);border-radius:18px;padding:40px;max-width:480px;width:100%;text-align:center}
+.keybox-logo{font-family:'Playfair Display',serif;font-size:28px;color:#f0c040;font-style:italic;margin-bottom:6px}
+.keybox-sub{font-size:12px;color:#6b738f;text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px}
+.keybox h2{font-size:18px;color:#e9ebf2;margin-bottom:8px;font-weight:500}
+.keybox p{font-size:13.5px;color:#6b738f;line-height:1.6;margin-bottom:22px}
+.keyinput{width:100%;padding:13px 16px;background:#111318;border:1px solid rgba(255,255,255,0.11);border-radius:10px;color:#e9ebf2;font-size:14px;font-family:'Outfit',sans-serif;outline:none;margin-bottom:14px;transition:.15s}
+.keyinput:focus{border-color:#2dd4bf}
+.keybtn{width:100%;padding:13px;background:#2dd4bf;color:#000;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:.15s;margin-bottom:16px}
+.keybtn:hover{background:#0d9488}
+.keysteps{text-align:left;background:#111318;border-radius:10px;padding:16px;margin-bottom:18px}
+.keystep{display:flex;gap:12px;font-size:13px;color:#6b738f;margin-bottom:10px;align-items:flex-start;line-height:1.5}
+.keystep:last-child{margin-bottom:0}
+.knum{width:22px;height:22px;border-radius:50%;background:rgba(45,212,191,0.15);color:#2dd4bf;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.keystep a{color:#2dd4bf;text-decoration:none}
+.keyerr{color:#f87171;font-size:13px;margin-bottom:12px;display:none;padding:10px;background:rgba(248,113,113,0.08);border-radius:8px;border:1px solid rgba(248,113,113,0.2)}
+.keysaved{color:#4ade80;font-size:13px;margin-bottom:12px;display:none;padding:10px;background:rgba(74,222,128,0.08);border-radius:8px;border:1px solid rgba(74,222,128,0.2)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-name">PM Exam Coach</div>
+    <div class="logo-sub">PMP · PRINCE2 v7 · AgilePM</div>
+  </div>
+  <div class="nav-sec">Study</div>
+  <div class="nav-item active" onclick="nav('dashboard',this)"><span class="ni">⬡</span>Dashboard</div>
+  <div class="nav-item" onclick="nav('practice',this)"><span class="ni">✦</span>Practice Questions</div>
+  <div class="nav-item" onclick="nav('mock',this)"><span class="ni">◷</span>Mock Exam</div>
+  <div class="nav-item" onclick="nav('explainer',this)"><span class="ni">◈</span>Concept Explainer</div>
+  <div class="nav-sec" style="margin-top:6px">Account</div>
+  <div class="nav-item" onclick="openUpgrade()"><span class="ni">◆</span>Upgrade to Pro</div>
+  <div class="plan-box" style="margin-top:auto">
+    <div class="plan-lbl">Current Plan</div>
+    <div class="plan-val">Free Tier</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px" id="sb-usage">0 / 35 Qs used</div>
+    <button class="up-btn" onclick="openUpgrade()">Upgrade to Pro ↗</button>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<div class="screen active" id="screen-dashboard">
+  <div class="ph"><div class="pt">Your <em>readiness</em> dashboard</div><div class="ps">See exactly where you stand — no sugarcoating.</div></div>
+  <div class="dgrid3">
+    <div class="dsc gold"><div class="dc-lbl">Questions answered</div><div class="dc-val" id="dash-total">0</div><div class="dc-sub">Across all domains</div></div>
+    <div class="dsc teal"><div class="dc-lbl">Overall accuracy</div><div class="dc-val" id="dash-acc">—</div><div class="dc-sub">Target: PMP 75% · P2 70%</div></div>
+    <div class="dsc purple"><div class="dc-lbl">Status</div><div class="dc-val" id="dash-status" style="font-size:18px;padding-top:6px">Start studying</div><div class="dc-sub" id="dash-sub">Answer questions to see your level</div></div>
+  </div>
+  <div class="sep"></div>
+  <div class="stitle">Domain accuracy tracker</div>
+  <div class="acc-grid">
+    <div class="acc-card"><div class="acc-cert">PMP ECO 2023</div>
+      <div class="acc-dom"><span>People (42%)</span><span id="d-pmp-people" style="font-weight:600;color:var(--muted)">—</span></div>
+      <div class="acc-dom"><span>Process (50%)</span><span id="d-pmp-process" style="font-weight:600;color:var(--muted)">—</span></div>
+      <div class="acc-dom"><span>Business Env. (8%)</span><span id="d-pmp-biz" style="font-weight:600;color:var(--muted)">—</span></div>
+    </div>
+    <div class="acc-card"><div class="acc-cert">PRINCE2 v7</div>
+      <div class="acc-dom"><span>Principles</span><span id="d-p2-principles" style="font-weight:600;color:var(--muted)">—</span></div>
+      <div class="acc-dom"><span>Practices</span><span id="d-p2-practices" style="font-weight:600;color:var(--muted)">—</span></div>
+      <div class="acc-dom"><span>Processes</span><span id="d-p2-processes" style="font-weight:600;color:var(--muted)">—</span></div>
+    </div>
+  </div>
+  <div style="margin-top:22px;display:flex;gap:10px">
+    <button class="gbtn" onclick="nav('practice',document.querySelectorAll('.nav-item')[1])">✦ Practice now</button>
+    <button class="gbtn ghost" onclick="nav('mock',document.querySelectorAll('.nav-item')[2])">◷ Start mock exam</button>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div class="screen" id="screen-practice">
+  <div class="ph"><div class="pt">Practice <em>questions</em></div><div class="ps">35 real exam-style questions. Instant explanation after every answer.</div></div>
+  <div class="flbar"><span style="font-size:17px">⚡</span><span class="flt">Free bank: <strong id="q-used">0 of 35</strong> questions answered.</span><button class="flup" onclick="openUpgrade()">Go Pro — AI questions</button></div>
+  <div class="ctabs">
+    <div class="ctab active" onclick="setCert(this,'PMP')">PMP <span class="bv">ECO 2023</span></div>
+    <div class="ctab" onclick="setCert(this,'PRINCE2')">PRINCE2 <span class="bv">v7 2023</span></div>
+  </div>
+  <div id="pmp-info" class="ibox"><div class="ih">How PMP is scored</div><strong>No fixed pass %.</strong> PMI uses psychometric analysis — results shown as bands: <strong style="color:var(--green)">Above Target</strong> · <strong style="color:var(--blue)">Target</strong> · <strong style="color:var(--amber)">Below Target</strong> · <strong style="color:var(--coral)">Needs Improvement</strong>. Aim for 75%+ in practice.</div>
+  <div id="p2-info" class="ibox" style="display:none"><div class="ih">How PRINCE2 v7 is scored</div><strong>Foundation:</strong> 60 Qs · 60 min · closed book · Pass: <strong style="color:var(--green)">60% (36/60)</strong>. &nbsp;<strong>Practitioner:</strong> 70 Qs · 2h 30min · open book · Pass: <strong style="color:var(--green)">60% (42/70)</strong>. Aim 70–75% in practice.</div>
+  <div id="pmp-domains" class="dgrid">
+    <div class="dcard active" onclick="setDom(this,'People')"><div class="dico">👥</div><div class="dnm">People</div><div class="dpct">42% of exam</div></div>
+    <div class="dcard" onclick="setDom(this,'Process')"><div class="dico">⚙️</div><div class="dnm">Process</div><div class="dpct">50% of exam</div></div>
+    <div class="dcard" onclick="setDom(this,'Business Env.')"><div class="dico">🌐</div><div class="dnm">Business Env.</div><div class="dpct">8% of exam</div></div>
+  </div>
+  <div id="p2-domains" class="dgrid" style="display:none">
+    <div class="dcard active" onclick="setDom(this,'Principles')"><div class="dico">📋</div><div class="dnm">Principles</div><div class="dpct">7 Principles</div></div>
+    <div class="dcard" onclick="setDom(this,'Practices')"><div class="dico">🎯</div><div class="dnm">Practices</div><div class="dpct">7 Practices</div></div>
+    <div class="dcard" onclick="setDom(this,'Processes')"><div class="dico">🔄</div><div class="dnm">Processes</div><div class="dpct">7 Processes</div></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="gbtn" id="gen-btn" onclick="genQ()">✦ Next question</button>
+    <button class="gbtn ghost" onclick="reviewMistakes()">📚 Review mistakes</button>
+  </div>
+  <div id="q-counter" style="font-size:12px;color:var(--muted);margin-top:10px;display:none"></div>
+
+  <div class="qcard" id="q-card" style="display:none">
+    <div class="qmeta" id="q-meta"></div>
+    <div class="qtext" id="q-text"></div>
+    <div class="opts" id="q-opts"></div>
+    <div class="expbox" id="q-exp">
+      <div class="exp-lbl">Explanation</div>
+      <div class="exp-txt" id="q-exp-txt"></div>
+    </div>
+    <div class="band-result" id="q-band">
+      <div class="band-lbl">Your performance band (PMP style)</div>
+      <div id="q-band-rows"></div>
+    </div>
+    <div class="readiness" id="q-ready">
+      <div class="rd-lbl">Session readiness</div>
+      <div class="rd-bar"><div class="rd-fill" id="rd-fill"></div></div>
+      <div class="rd-txt" id="rd-txt"></div>
+    </div>
+    <div class="srow">
+      <button class="sbtn" id="sub-btn" onclick="submitA()" disabled>Submit answer</button>
+      <button class="nxbtn" id="nxt-btn" onclick="genQ()">Next question →</button>
+    </div>
+  </div>
+  <div class="motiv" id="prac-motiv"></div>
+</div>
+
+<!-- MOCK EXAM -->
+<div class="screen" id="screen-mock">
+  <div class="ph"><div class="pt">Mock <em>exam</em></div><div class="ps">Answer all questions first. Full review with correct answers shown at the end.</div></div>
+  <div class="flbar"><span style="font-size:17px">⚡</span><span class="flt">Timed mock exam from the full question bank.</span><button class="flup" onclick="openUpgrade()">Go Pro — unlimited</button></div>
+
+  <div class="esetup" id="esetup">
+    <h3>Configure your exam</h3>
+    <div class="sgrid">
+      <div class="sf"><label>Certification</label>
+        <select id="e-cert" onchange="updateExamInfo()">
+          <option value="PMP">PMP (ECO 2023)</option>
+          <option value="PRINCE2-F">PRINCE2 Foundation (v7)</option>
+          <option value="PRINCE2-P">PRINCE2 Practitioner (v7)</option>
+        </select>
+      </div>
+      <div class="sf"><label>Questions</label>
+        <select id="e-qc">
+          <option value="5">5 — Quick drill</option>
+          <option value="10">10 — Short mock</option>
+        </select>
+      </div>
+      <div class="sf"><label>Time limit</label>
+        <select id="e-time">
+          <option value="300">5 minutes</option>
+          <option value="600">10 minutes</option>
+          <option value="900">15 minutes</option>
+        </select>
+      </div>
+      <div class="sf"><label>Difficulty</label>
+        <select id="e-diff"><option value="all">Mixed</option><option value="Medium">Medium only</option><option value="Hard">Hard only</option></select>
+      </div>
+    </div>
+    <div id="exam-note" class="ibox" style="margin-bottom:18px"></div>
+    <button class="gbtn" onclick="startExam()">◷ Start exam</button>
+  </div>
+
+  <div class="erun" id="erun">
+    <div class="ehdr">
+      <div class="eprog">Question <strong id="eq-num">1</strong> of <strong id="eq-tot">5</strong></div>
+      <div class="etimer" id="etimer">05:00</div>
+    </div>
+    <div class="pbar"><div class="pfill" id="epfill" style="width:0%"></div></div>
+    <div class="qcard" id="eq-card" style="display:none">
+      <div class="qmeta" id="eq-meta"></div>
+      <div class="qtext" id="eq-text"></div>
+      <div class="opts" id="eq-opts"></div>
+      <div class="srow">
+        <button class="sbtn" id="eq-sub" onclick="submitEA()" disabled>Confirm answer</button>
+        <button class="nxbtn" id="eq-nxt" onclick="nextEQ()">Next →</button>
+      </div>
+      <div class="eq-status" id="eq-status"></div>
+    </div>
+  </div>
+
+  <div class="review-section" id="review-section">
+    <div class="review-header">
+      <div class="review-score-row">
+        <div class="rscore-big" id="r-score-big">--</div>
+        <div>
+          <div class="rverdict" id="r-verdict">--</div>
+          <div style="font-size:13px;color:var(--muted)" id="r-sublabel">--</div>
+        </div>
+      </div>
+      <div class="rstats">
+        <div class="rstat"><div class="rstat-val" id="r-correct" style="color:var(--green)">-</div><div class="rstat-lbl">Correct</div></div>
+        <div class="rstat"><div class="rstat-val" id="r-wrong" style="color:var(--coral)">-</div><div class="rstat-lbl">Wrong</div></div>
+        <div class="rstat"><div class="rstat-val" id="r-time" style="color:var(--blue)">-</div><div class="rstat-lbl">Time used</div></div>
+      </div>
+      <div id="r-pmp" style="display:none">
+        <div class="stitle" style="margin-bottom:10px">Domain performance bands</div>
+        <table class="band-table"><tr><th>Domain</th><th>Weight</th><th>Score</th><th>Band</th></tr><tbody id="r-band-rows"></tbody></table>
+        <div class="ibox"><div class="ih">What bands mean</div>You need <strong>Target or Above</strong> across domains to pass PMP. Focus on your lowest band domain.</div>
+      </div>
+      <div id="r-p2" style="display:none">
+        <div class="ibox" style="margin-top:14px"><div class="ih">PRINCE2 v7 pass mark</div>Foundation: <strong>36/60 (60%)</strong> · Practitioner: <strong>42/70 (60%)</strong>. Aim 70–75% consistently before booking.</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+        <button class="gbtn" onclick="resetExam()">Try again</button>
+        <button class="gbtn ghost" onclick="nav('practice',document.querySelectorAll('.nav-item')[1])">Practice weak areas →</button>
+        <button class="gbtn ghost" onclick="openUpgrade()">Pro analytics ↗</button>
+      </div>
+    </div>
+    <div class="motiv" id="exam-motiv"></div>
+    <div class="stitle" style="margin-top:24px">Full question review</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:18px">Every question — your answer, correct answer, and explanation.</div>
+    <div class="review-qs" id="review-qs"></div>
+  </div>
+</div>
+
+<!-- CONCEPT EXPLAINER -->
+<div class="screen" id="screen-explainer">
+  <div class="ph"><div class="pt">Concept <em>explainer</em></div><div class="ps">Ask anything from PMP ECO 2023 or PRINCE2 v7. AI-powered answers.</div></div>
+  <div class="cinwrap">
+    <label>What concept do you want explained?</label>
+    <input class="tinput" id="t-input" type="text" placeholder="e.g. Earned Value Management, PRINCE2 v7 Risk practice…" onkeydown="if(event.key==='Enter')explainC()"/>
+    <div class="qtopics">
+      <div class="qtop" onclick="qt('Earned Value Management')">EVM</div>
+      <div class="qtop" onclick="qt('PRINCE2 v7 Business Case practice')">PRINCE2 Business Case</div>
+      <div class="qtop" onclick="qt('Critical Path Method')">Critical Path</div>
+      <div class="qtop" onclick="qt('PRINCE2 v7 seven principles')">PRINCE2 7 Principles</div>
+      <div class="qtop" onclick="qt('Servant leadership in PMP')">Servant leadership</div>
+      <div class="qtop" onclick="qt('PRINCE2 v7 seven practices')">PRINCE2 7 Practices</div>
+      <div class="qtop" onclick="qt('PRINCE2 v7 seven processes')">PRINCE2 7 Processes</div>
+      <div class="qtop" onclick="qt('Agile vs Predictive in PMP ECO 2023')">Agile vs Predictive</div>
+      <div class="qtop" onclick="qt('Monte Carlo simulation in risk')">Monte Carlo</div>
+      <div class="qtop" onclick="qt('PRINCE2 v7 People practice')">PRINCE2 People practice</div>
+      <div class="qtop" onclick="qt('Stakeholder engagement in PMP')">Stakeholder engagement</div>
+      <div class="qtop" onclick="qt('RACI matrix')">RACI matrix</div>
+    </div>
+  </div>
+  <button class="gbtn" id="exp-btn" onclick="explainC()">◈ Explain this concept</button>
+  <div class="exp-loading" id="exp-loading">Building your exam-focused explanation…</div>
+  <div class="coutput" id="exp-out"><h3 id="exp-title"></h3><div class="cbody" id="exp-body"></div></div>
+</div>
+
+</main>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="mov" id="upmodal">
+  <div class="modal">
+    <button class="mc" onclick="closeUpgrade()">✕</button>
+    <h2>Upgrade to Pro</h2>
+    <p>Unlock AI-generated questions (unlimited), full mocks, and detailed analytics.</p>
+    <div class="plans">
+      <div class="plan">
+        <div class="plan-price">₹499</div><div class="plan-per">/month</div>
+        <div class="plan-nm">Pro Monthly</div>
+        <ul class="plan-fs"><li>Unlimited AI questions</li><li>Unlimited mock exams</li><li>Domain analytics</li><li>PMP + PRINCE2 v7</li></ul>
+      </div>
+      <div class="plan feat">
+        <div style="font-size:10px;color:var(--gold);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em">Best value</div>
+        <div class="plan-price">₹999</div><div class="plan-per">/3 months</div>
+        <div class="plan-nm">Pro Quarterly</div>
+        <ul class="plan-fs"><li>Everything in Monthly</li><li>AgilePM early access</li><li>AI study coach</li><li>Priority support</li></ul>
+      </div>
+    </div>
+    <button class="up-btn" style="padding:14px;font-size:15px" onclick="closeUpgrade()">Contact us to upgrade</button>
+  </div>
+</div>
+
+<!-- API KEY SCREEN -->
+<div class="keyscreen" id="keyscreen" style="display:none">
+  <div class="keybox">
+    <div class="keybox-logo">PM Exam Coach</div>
+    <div class="keybox-sub">PMP · PRINCE2 v7 · AgilePM</div>
+    <h2>Enter your Anthropic API key</h2>
+    <p>Needed for the Concept Explainer (AI feature).<br>Your key is saved only in your browser.</p>
+    <div class="keysteps">
+      <div class="keystep"><div class="knum">1</div><span>Go to <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> and sign up free</span></div>
+      <div class="keystep"><div class="knum">2</div><span>Click <strong style="color:#e9ebf2">API Keys</strong> → <strong style="color:#e9ebf2">Create Key</strong></span></div>
+      <div class="keystep"><div class="knum">3</div><span>Copy the key (starts with <strong style="color:#e9ebf2">sk-ant-</strong>) and paste below</span></div>
+    </div>
+    <div class="keyerr" id="keyerr"></div>
+    <div class="keysaved" id="keysaved">✓ Key saved!</div>
+    <input class="keyinput" id="keyinput" type="password" placeholder="sk-ant-api03-xxxxxxxxxxxxxxxx" autocomplete="off"/>
+    <button class="keybtn" onclick="saveKey()">Save key & continue →</button>
+    <button style="background:none;border:none;color:#6b738f;font-size:13px;cursor:pointer;width:100%;padding:4px" onclick="hideKeyScreen()">Skip — use practice questions only</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// QUESTION BANK — 20 PMP + 15 PRINCE2
+// ═══════════════════════════════════════════════════════════
+const ALL_QUESTIONS = [
+
+// ── PMP PEOPLE DOMAIN (7 questions) ──────────────────────
+{cert:'PMP',domain:'People',difficulty:'Medium',
+question:'Rajan is a project manager leading a cross-functional team. Two senior developers are in constant disagreement about the technical approach, slowing down the project. Both are experienced and have valid points. What is the BEST action for Rajan?',
+options:['Escalate the issue to the project sponsor immediately','Facilitate a structured discussion between the two developers to find a mutually agreeable solution','Make the technical decision himself to move the project forward','Assign one developer to a different project to resolve the conflict'],
+correct:1,
+explanation:'Collaborating (problem-solving) is the best conflict resolution technique as it addresses the root cause and produces a win-win outcome. Both developers have valid points, so facilitating a discussion to find a merged solution preserves relationships and gets the best technical outcome. Escalating is premature, making the decision himself ignores expertise, and removing a developer damages team morale.'},
+
+{cert:'PMP',domain:'People',difficulty:'Hard',
+question:'Priya is managing a project using an agile approach. Her team is consistently delivering but individual members seem disengaged and rarely speak up in retrospectives. What should Priya do FIRST?',
+options:['Replace underperforming team members with more engaged resources','Conduct one-on-one conversations to understand each team member\'s concerns and motivations','Report the engagement issue to HR for resolution','Increase the frequency of retrospectives to force more participation'],
+correct:1,
+explanation:'Servant leadership requires understanding team members as individuals. One-on-one conversations reveal the root cause of disengagement — it could be workload, unclear roles, personal issues, or lack of psychological safety. Only by understanding the "why" can Priya address it effectively. Replacing members, involving HR prematurely, or forcing participation are reactive and counterproductive.'},
+
+{cert:'PMP',domain:'People',difficulty:'Medium',
+question:'A team member tells Arjun, the project manager, that another team member is not pulling their weight and causing delays. Arjun has not observed this himself. What should Arjun do FIRST?',
+options:['Formally document the underperforming team member\'s behaviour','Observe the team dynamics over the next sprint before taking any action','Have a private conversation with the underperforming team member to understand their perspective','Immediately update the team member\'s performance review'],
+correct:2,
+explanation:'Before taking any action based on second-hand information, Arjun must get the full picture by speaking directly with the team member in question. There may be blockers, personal challenges, or unclear expectations. Documenting or updating a performance review without first understanding the situation is premature and potentially unfair.'},
+
+{cert:'PMP',domain:'People',difficulty:'Hard',
+question:'Meena is leading a hybrid project. The onsite team follows a predictive approach while the remote team works in sprints. Conflict arises because the remote team\'s deliverables don\'t align with the onsite team\'s milestones. What is the BEST approach?',
+options:['Convert the entire project to a predictive approach for consistency','Create a shared integration calendar that maps sprint outputs to milestone gates','Separate the two teams into completely independent workstreams','Escalate to the PMO to decide which methodology to use'],
+correct:1,
+explanation:'In hybrid projects, the PM\'s role is to bridge methodologies, not eliminate one. A shared integration calendar that maps sprint deliverables to milestone checkpoints allows both teams to work in their preferred approach while ensuring alignment. This is a core hybrid PM skill tested in PMP ECO 2023.'},
+
+{cert:'PMP',domain:'People',difficulty:'Medium',
+question:'During project execution, Rahul notices that one of his team members has been working late every day and appears stressed. The team member insists everything is fine. What should Rahul do?',
+options:['Accept the team member\'s response and continue monitoring project metrics','Reassign some of the team member\'s tasks to reduce their workload without asking','Report the situation to HR as a wellbeing concern','Have a follow-up private conversation expressing genuine care, and offer flexible support options'],
+correct:3,
+explanation:'Servant leadership means caring for team members\' wellbeing beyond just task completion. A genuine, non-threatening follow-up conversation — not an HR report or unilateral task reassignment — creates psychological safety. The team member may open up when they feel genuinely heard. This aligns with PMP\'s emphasis on emotional intelligence and team health.'},
+
+{cert:'PMP',domain:'People',difficulty:'Medium',
+question:'A project team has three new graduates and two experienced engineers. The PM, Vikram, notices that the new graduates rarely challenge ideas in meetings. Which leadership style should Vikram apply to the new graduates specifically?',
+options:['Delegating — give them full ownership to build confidence','Coaching — provide direction while explaining the reasoning behind decisions','Laissez-faire — let them find their own way','Authoritative — tell them exactly what to do at all times'],
+correct:1,
+explanation:'Situational leadership calls for coaching with low-experience, high-commitment team members (new graduates). They need clear direction AND the reasoning behind it to grow. Delegating requires existing competence. Laissez-faire abandons them. Pure authoritative style doesn\'t build capability. PMP ECO tests situational leadership frequently.'},
+
+{cert:'PMP',domain:'People',difficulty:'Hard',
+question:'Deepa is managing a project with a diverse international team across four time zones. Team members from one region are consistently silent during all-hands video calls. Which action BEST addresses this?',
+options:['Require all team members to turn cameras on during calls','Hold separate regional calls and share summaries with the full team','Rotate meeting times so no single region always bears the off-hours burden, and use async tools for input','Replace video calls with email updates only'],
+correct:2,
+explanation:'Rotating meeting times demonstrates cultural sensitivity and shared commitment. Combining this with asynchronous tools (shared documents, discussion boards) ensures all voices contribute regardless of time zone. Requiring cameras is a compliance-based approach that doesn\'t address the root cause. Regional-only calls fragment the team. Email-only communication reduces collaboration.'},
+
+// ── PMP PROCESS DOMAIN (8 questions) ─────────────────────
+{cert:'PMP',domain:'Process',difficulty:'Medium',
+question:'Your project has a CPI of 0.82 and an SPI of 0.91. The sponsor asks you for the Estimate at Completion (EAC) assuming current performance continues. BAC is ₹50,00,000. What is the BEST formula to use?',
+options:['EAC = BAC / CPI','EAC = AC + (BAC - EV)','EAC = AC + Bottom-up ETC','EAC = BAC'],
+correct:0,
+explanation:'When current performance is expected to continue for the remainder of the project, EAC = BAC / CPI. With CPI = 0.82, EAC = 50,00,000 / 0.82 ≈ ₹60,97,561. Option B (EAC = AC + BAC - EV) assumes remaining work will be done at the planned rate, which contradicts the scenario. Option C requires a new bottom-up estimate. Always match the formula to the scenario assumption.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Hard',
+question:'Suresh is managing a software project. Halfway through, a key stakeholder requests a significant scope addition that they claim was always implied in the original requirements. The change is not in the project charter. What should Suresh do FIRST?',
+options:['Implement the change immediately to maintain stakeholder satisfaction','Reject the change as it is not in the project charter','Log the change request and submit it through the integrated change control process','Ask the team to absorb the work within the current sprint'],
+correct:2,
+explanation:'All changes, regardless of source or justification, must go through the integrated change control process. This is a foundational PMP principle. The CCB evaluates impact on scope, schedule, cost, quality, risk, and resources. Implementing without approval causes scope creep. Rejecting outright without evaluation is also wrong. Absorbing it into the sprint bypasses governance.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Medium',
+question:'In an agile project, the product owner keeps adding new items to the current sprint without going through the backlog refinement process. This is causing the team to miss sprint goals. As the project manager, what is the BEST action?',
+options:['Allow the additions since the product owner has authority over the backlog','Escalate to the project sponsor to restrict the product owner\'s access','Facilitate a team discussion on the impact of mid-sprint changes and agree on a working agreement to protect sprint scope','Remove the added items from the sprint without informing the product owner'],
+correct:2,
+explanation:'Mid-sprint scope additions violate the sprint contract and undermine team predictability. The right action is a facilitated conversation — not escalation or unilateral action — to create a working agreement that all parties respect. This is servant leadership: protect the team\'s ability to deliver while educating the product owner on agile principles.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Hard',
+question:'A critical path activity is delayed by 3 days due to a vendor delivering materials late. The project has a total float of 2 days. The project manager, Anita, needs to get back on schedule. What is the MOST appropriate action?',
+options:['Accept the 1-day delay and update the schedule baseline','Apply fast tracking by overlapping subsequent activities where dependencies allow','Immediately crash the schedule by adding resources to all remaining activities','Request a project extension from the sponsor'],
+correct:1,
+explanation:'Since the delay (3 days) exceeds total float (2 days), the project is now behind schedule. Fast tracking — overlapping activities that can be parallelised — is the first corrective action to recover time without necessarily increasing cost. Crashing adds cost and should be evaluated before application, not applied to all activities. Accepting the delay or requesting an extension are last resorts.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Medium',
+question:'Sanjay\'s project risk register contains 45 identified risks. During a review meeting, a risk event that was rated "low probability, low impact" actually occurs and causes significant damage. What does this MOST likely indicate?',
+options:['The risk register was too large to manage effectively','The initial risk assessment was inaccurate and the risk should have been rated higher','Risk events are inherently unpredictable and this is expected','The risk owner failed to monitor the risk'],
+correct:1,
+explanation:'When a risk rated low causes significant damage, the most likely cause is an inaccurate initial assessment — either the probability or impact was underestimated. This highlights the importance of using multiple techniques (interviews, Delphi, historical data) for risk assessment and regularly reviewing ratings. It also points to the need for a robust risk review cadence.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Hard',
+question:'During project planning, Kavya discovers that two deliverables have a finish-to-start dependency but could technically be started simultaneously if a moderate risk is accepted. The schedule is already tight. What should she do?',
+options:['Maintain the original dependency to avoid the risk','Apply fast tracking and document the risk in the risk register','Apply crashing to both activities to eliminate the concern','Request the sponsor to approve an extended timeline'],
+correct:1,
+explanation:'Fast tracking is deliberately overlapping activities that would normally be sequential. It introduces risk, which must be formally documented in the risk register and assessed. This is a legitimate schedule compression technique in PMP. The PM\'s role is to make an informed decision, document it, and manage the resulting risk — not to automatically avoid all risk or blindly crash the schedule.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Medium',
+question:'A project quality audit reveals that defects are being found in testing that should have been caught in development. The defect rate has increased over the last three sprints. What is the BEST first step?',
+options:['Increase the testing budget to catch more defects','Conduct a root cause analysis to understand why defects are escaping development','Replace the development team lead','Add more testers to the project'],
+correct:1,
+explanation:'Quality management in PMP emphasises prevention over inspection. Finding defects in testing is costly — the cost of quality principle states that defects should be caught as early as possible. Root cause analysis (using tools like fishbone diagrams or 5 Whys) identifies the systemic cause. Adding testers or budget addresses the symptom, not the cause.'},
+
+{cert:'PMP',domain:'Process',difficulty:'Hard',
+question:'Nisha is the PM for a construction project. The project is 60% complete. A new government regulation is announced that requires a design change affecting 30% of completed work. This was not in the risk register. What should Nisha do FIRST?',
+options:['Stop all project work until the regulation is fully analysed','Assess the impact on scope, schedule, cost, and quality, then raise a change request','Notify the sponsor and wait for direction before doing anything','Update the risk register to include regulatory changes for future projects'],
+correct:1,
+explanation:'When an unplanned external event impacts the project, the PM must first conduct a comprehensive impact assessment — scope, schedule, cost, quality, risk — before any other action. This assessment feeds into a formal change request through integrated change control. Stopping work is premature and costly. Waiting for the sponsor without data is not helpful. Updating the register is useful but not the first action.'},
+
+// ── PMP BUSINESS ENVIRONMENT (5 questions) ───────────────
+{cert:'PMP',domain:'Business Env.',difficulty:'Medium',
+question:'A project is delivering on time and within budget, but the business sponsor indicates that the strategic objective the project was meant to support has shifted. The project deliverables will no longer address the new business need. What should the project manager do?',
+options:['Continue delivery since the project is performing well against baseline','Immediately terminate the project','Escalate to the project sponsor to review the project\'s business case and determine whether to continue, modify, or close the project','Modify the project scope independently to align with the new strategy'],
+correct:2,
+explanation:'Business value realisation is the ultimate purpose of a project. If the strategic context shifts, the project manager must escalate to the sponsor to review the business case — this is not a decision the PM makes unilaterally. Continuing delivery of something that no longer serves the business wastes resources. Termination or continuation is the sponsor\'s call based on updated business case review.'},
+
+{cert:'PMP',domain:'Business Env.',difficulty:'Hard',
+question:'The project manager of a product launch project realises that a competitor has released a similar product, which significantly reduces the projected business benefits. The project is 70% complete. What is the MOST appropriate action?',
+options:['Accelerate delivery to reach market before further competitive damage','Document the competitive risk and continue as planned','Conduct a benefit realisation review with the sponsor and steering committee to decide on project continuation','Reduce project scope to cut costs given the reduced projected returns'],
+correct:2,
+explanation:'Benefit realisation is a core concept in PMP ECO 2023. When projected benefits are significantly reduced by external factors, the business case must be re-evaluated. The PM convenes the sponsor and steering committee — those accountable for benefit realisation — to decide whether to continue, adapt, or stop. Accelerating or reducing scope unilaterally doesn\'t address the strategic question.'},
+
+{cert:'PMP',domain:'Business Env.',difficulty:'Medium',
+question:'During project initiation, Raj identifies that the new data management system his project will deliver must comply with data localisation laws introduced this year. This compliance requirement was not in the initial project brief. What should Raj do?',
+options:['Proceed with the original scope since compliance is the operations team\'s responsibility','Add the compliance requirement to the project scope and raise a change request to adjust schedule and budget','Inform the sponsor and wait for them to decide','Deliver the original scope and flag the compliance gap in the project closure report'],
+correct:1,
+explanation:'Legal and regulatory compliance is part of the business environment that PMs must actively monitor. If a new compliance requirement affects the project, it must be incorporated through formal scope change. Ignoring it or deferring to operations creates legal risk for the organisation. Waiting for the sponsor without a recommendation is passive project management.'},
+
+{cert:'PMP',domain:'Business Env.',difficulty:'Hard',
+question:'A project manager is asked to cut project costs by 20% after the organisation faces budget pressures. The PM analyses options: reduce scope, defer non-critical features, or reduce quality standards. What should the PM do FIRST?',
+options:['Reduce quality standards as this has the least stakeholder visibility','Present the sponsor with a full impact analysis of each option and get a decision','Immediately defer all non-critical features without stakeholder consultation','Accept the budget cut and figure out how to deliver the same scope with less'],
+correct:1,
+explanation:'The PM\'s role in budget cuts is to make the trade-offs transparent and ensure decision-makers understand the consequences. Reducing quality, deferring features, or cutting scope all have different impacts on business value — the sponsor and steering committee must choose, not the PM unilaterally. Presenting a full impact analysis is how a professional PM navigates this situation.'},
+
+{cert:'PMP',domain:'Business Env.',difficulty:'Medium',
+question:'Preethi is a PM whose organisation is adopting a new enterprise project management tool across all projects. Her current project is midway through delivery. The change will require her team to re-enter significant data and learn new workflows. What is the BEST approach?',
+options:['Refuse to adopt the new tool until the current project is closed','Adopt the tool immediately to show organisational commitment','Assess the impact on the current project timeline and resources, raise it with the PMO, and plan a phased transition','Ask each team member individually whether they prefer to switch'],
+correct:2,
+explanation:'Organisational change impacts active projects and must be managed proactively. The PM should assess impact, engage the PMO (who owns the tool rollout), and negotiate a phased or project-appropriate transition. Refusing adoption is obstructive. Immediate adoption without planning risks the project. Individual team member polling bypasses governance.'},
+
+// ── PRINCE2 PRINCIPLES (5 questions) ─────────────────────
+{cert:'PRINCE2',domain:'Principles',difficulty:'Medium',
+question:'A PRINCE2 project has been running for six months. The latest Business Case review shows that the projected benefits have been reduced by 40% due to market changes, but the project board has not yet been informed. According to PRINCE2 v7 principles, what should the project manager do?',
+options:['Continue the project and review the business case at the next scheduled stage boundary','Immediately escalate to the project board as continued business justification must be verified throughout the project','Update the business case independently and continue delivery','Raise an issue and wait for the next highlight report to include it'],
+correct:1,
+explanation:'PRINCE2\'s principle of Continued Business Justification requires that the project remains viable throughout its life — not just at initiation. A 40% reduction in benefits is a significant threat to justification and must be escalated to the project board immediately as an exception, not held until the next scheduled report. The project board decides whether to continue, amend, or close.'},
+
+{cert:'PRINCE2',domain:'Principles',difficulty:'Hard',
+question:'A project manager on a PRINCE2 project is applying the "Manage by Exception" principle. The project board has set a cost tolerance of +/- ₹2,00,000. The PM forecasts a cost overrun of ₹2,50,000 due to a supplier price increase. What is the correct action?',
+options:['Absorb the overrun by reducing quality in other areas without informing the board','Raise an Exception Report to the project board immediately, as the tolerance will be breached','Wait until the end of the current stage to report in the End Stage Report','Ask the team to work overtime to reduce costs before reporting'],
+correct:1,
+explanation:'Manage by Exception means the PM has delegated authority within agreed tolerances. When a forecast shows tolerance will be breached, an Exception Report must be raised immediately — this is non-negotiable in PRINCE2. The project board then decides how to proceed (exception plan, closure, or revised tolerance). Hiding the overrun or delaying reporting violates the principle.'},
+
+{cert:'PRINCE2',domain:'Principles',difficulty:'Medium',
+question:'A PRINCE2 project team is re-using processes and templates from a similar project completed last year. Which PRINCE2 v7 principle does this BEST demonstrate?',
+options:['Manage by stages','Learn from experience','Continued business justification','Focus on products'],
+correct:1,
+explanation:'The PRINCE2 principle of Learn from Experience means actively using lessons from previous projects and capturing new lessons for the future. Re-using processes and templates from a past project is a direct application of this principle. PRINCE2 v7 emphasises that this learning should be documented in the Lessons Log and incorporated throughout the project, not just at closure.'},
+
+{cert:'PRINCE2',domain:'Principles',difficulty:'Hard',
+question:'The project board of a PRINCE2 project has given the project manager authority to manage day-to-day delivery within agreed tolerances. Midway through a stage, the PM realises a key product will be delivered two weeks late, which is within the agreed schedule tolerance. What should the PM do?',
+options:['Raise an Exception Report immediately','Manage the issue within the stage and document it in the Checkpoint Report and Highlight Report','Stop work and seek project board approval before continuing','Escalate to the corporate level for guidance'],
+correct:1,
+explanation:'This scenario is within tolerance, which means the PM is empowered to manage it — this is the essence of Manage by Exception. The two-week delay must be documented in the Checkpoint Report (from teams) and Highlight Report (to the project board) for visibility, but no escalation is required. Raising an Exception Report is only needed when tolerances are forecast to be breached.'},
+
+{cert:'PRINCE2',domain:'Principles',difficulty:'Medium',
+question:'A PRINCE2 project is tailored for a small internal IT upgrade. The project manager decides to combine the Project Initiation Documentation into a single lightweight document and hold informal rather than formal stage boundary reviews. Which PRINCE2 principle supports this approach?',
+options:['Focus on products','Manage by exception','Tailor to suit the project','Defined roles and responsibilities'],
+correct:2,
+explanation:'PRINCE2 explicitly requires tailoring to the project\'s environment, scale, complexity, and risk. A small internal project doesn\'t need the same level of formality as a large programme. Combining documentation and holding informal reviews is appropriate tailoring. PRINCE2 v7 strongly emphasises that the methodology must be applied proportionately — following every element rigidly on a small project is itself poor practice.'},
+
+// ── PRINCE2 PRACTICES (5 questions) ──────────────────────
+{cert:'PRINCE2',domain:'Practices',difficulty:'Medium',
+question:'In a PRINCE2 v7 project, the Risk Register shows a risk that has now occurred and is causing actual disruption. How should this risk be reclassified?',
+options:['Keep it in the Risk Register as a high-priority risk','Move it to the Issue Register as it is now an actual problem, not a potential one','Delete it from the Risk Register as it has materialised','Add it to the Quality Register for tracking'],
+correct:1,
+explanation:'In PRINCE2 v7, the Risk Register tracks potential events (threats and opportunities). Once a risk materialises, it becomes an issue and should be recorded in the Issue Register. The distinction between risks (uncertain future events) and issues (current problems) is fundamental to PRINCE2. The Issue Register triggers the issue resolution process and escalation if needed.'},
+
+{cert:'PRINCE2',domain:'Practices',difficulty:'Hard',
+question:'A PRINCE2 v7 project is using the Plans practice. The project manager has produced a Project Plan and two Stage Plans. The team manager asks whether they need a Team Plan for a small, two-week work package. What is the CORRECT guidance?',
+options:['Team Plans are mandatory in all PRINCE2 projects','Team Plans are optional and should only be created if the team manager and project manager agree it adds value given the work package size','Team Plans must always be approved by the project board','Team Plans replace Stage Plans in agile PRINCE2 projects'],
+correct:1,
+explanation:'PRINCE2 v7 is explicit that Team Plans are optional. For small or simple work packages, a formal Team Plan may add bureaucratic overhead without value. The decision should be made collaboratively between the project manager and team manager based on the work package\'s complexity and duration. This reflects the Tailor to suit the project principle in action.'},
+
+{cert:'PRINCE2',domain:'Practices',difficulty:'Medium',
+question:'The PRINCE2 v7 People practice has been added as a standalone element. A project manager is assembling the project management team. Which of the following BEST reflects the People practice\'s guidance?',
+options:['Focus exclusively on assigning technical roles to the most experienced staff','Consider leadership styles, team dynamics, communication needs, and individual development alongside role assignment','Only define roles and responsibilities in the Project Initiation Documentation','Delegate all people management to the team managers'],
+correct:1,
+explanation:'PRINCE2 v7 introduced People as a standalone practice (previously elements were distributed across other themes). It covers leadership, team development, stakeholder engagement, and communication — not just role assignment. The practice recognises that projects are delivered by people, and the human dimension must be actively managed throughout. This is a key change from PRINCE2 v6 that is frequently tested.'},
+
+{cert:'PRINCE2',domain:'Practices',difficulty:'Hard',
+question:'During a PRINCE2 project, the quality register shows that three products have failed quality checks in the current stage. The project manager is preparing the End Stage Report. How should this be handled?',
+options:['Omit the quality failures to avoid alarming the project board','Include the quality failures in the End Stage Report with root cause analysis and corrective actions planned','Close the stage anyway and address quality in the next stage','Raise an Exception Report for each quality failure separately'],
+correct:1,
+explanation:'The End Stage Report provides the project board with an honest account of the stage\'s performance — including quality results. Quality failures must be reported transparently with root cause analysis and planned corrective actions. This allows the project board to make an informed decision about authorising the next stage. Omitting failures violates PRINCE2\'s principle of transparency and undermines governance.'},
+
+{cert:'PRINCE2',domain:'Practices',difficulty:'Medium',
+question:'A PRINCE2 v7 project is using the Change practice (formerly the Change theme in v6). A team member identifies a possible improvement to a product that is already baselined. What is the correct first step?',
+options:['Implement the improvement immediately as it adds value','Raise a Request for Change through the issue management procedure','Update the product description without formal approval','Ask the project board to approve the change verbally before documenting it'],
+correct:1,
+explanation:'Any proposed change to a baselined product must go through the formal issue management procedure as a Request for Change. This ensures the impact on cost, time, scope, and quality is assessed, and the appropriate authority approves it. Implementing without approval causes configuration management problems and undermines baseline integrity — a core concern in PRINCE2\'s Change practice.'},
+
+// ── PRINCE2 PROCESSES (5 questions) ──────────────────────
+{cert:'PRINCE2',domain:'Processes',difficulty:'Medium',
+question:'Which PRINCE2 process is responsible for producing the Project Brief and appointing the Project Management Team?',
+options:['Initiating a Project','Starting Up a Project','Directing a Project','Managing a Stage Boundary'],
+correct:1,
+explanation:'Starting Up a Project (SU) is the pre-project process that occurs before the project is formally initiated. It produces the Project Brief (outline business case, project approach, and project management team) and appoints the project management team. It is intentionally lightweight — the detailed planning happens in Initiating a Project (IP). This distinction is frequently tested in PRINCE2 Foundation exams.'},
+
+{cert:'PRINCE2',domain:'Processes',difficulty:'Hard',
+question:'The project board is about to authorise the next stage of a PRINCE2 project. Which process are they performing, and what is the primary input from the project manager?',
+options:['Directing a Project — the primary input is the Highlight Report','Directing a Project — the primary input is the End Stage Report','Managing a Stage Boundary — the primary input is the Next Stage Plan','Controlling a Stage — the primary input is the Checkpoint Report'],
+correct:1,
+explanation:'Authorising a Stage or Exception Plan is an activity within Directing a Project (DP), which is the project board\'s process. The primary input from the project manager is the End Stage Report, which summarises the current stage\'s performance and includes the next Stage Plan for approval. Highlight Reports are regular progress updates — not the trigger for stage authorisation.'},
+
+{cert:'PRINCE2',domain:'Processes',difficulty:'Medium',
+question:'During a PRINCE2 project, the project manager is reviewing a completed Work Package before sending it to quality checking. Which process does this activity belong to?',
+options:['Managing Product Delivery','Controlling a Stage','Managing a Stage Boundary','Directing a Project'],
+correct:0,
+explanation:'Managing Product Delivery (MPD) is the interface process between the project manager and team managers. It includes accepting, executing, and delivering Work Packages. Reviewing a completed Work Package before it goes to quality checking is a Team Manager activity within MPD. Controlling a Stage is the project manager\'s process for monitoring and controlling overall stage progress.'},
+
+{cert:'PRINCE2',domain:'Processes',difficulty:'Hard',
+question:'A PRINCE2 project is approaching the end of the final delivery stage. The project manager is preparing for project closure. Which of the following is NOT an activity in the Closing a Project process?',
+options:['Preparing the End Project Report','Handing over products to operational teams','Authorising project closure','Capturing lessons learned in the Lessons Report'],
+correct:2,
+explanation:'Authorising project closure is an activity in Directing a Project — it is the project board\'s decision, not the project manager\'s. The project manager\'s role in Closing a Project is to prepare the closure documentation (End Project Report, Lessons Report), ensure products are handed over, and recommend closure to the project board. The board then authorises it through Directing a Project.'},
+
+{cert:'PRINCE2',domain:'Processes',difficulty:'Medium',
+question:'At the end of a PRINCE2 stage, the project manager forecasts that the next stage will exceed the agreed cost tolerance by 25%. What is the correct process response?',
+options:['Continue into the next stage and manage the overrun as it happens','Raise an Exception Report to the project board and produce an Exception Plan if directed','Close the project immediately as the tolerance has been breached','Reduce the scope of the next stage unilaterally to stay within tolerance'],
+correct:1,
+explanation:'When a stage is forecast to exceed tolerance, the Manage by Exception principle requires the project manager to raise an Exception Report immediately. The project board reviews it and may direct the PM to produce an Exception Plan (which replaces the current Stage Plan). This is a Managing a Stage Boundary / Directing a Project interaction. Proceeding without escalation breaches PRINCE2 governance.'}
+
+]; // end ALL_QUESTIONS
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let cert = 'PMP';
+let domain = 'People';
+let selOpt = null;
+let correctA = null;
+let qStats = { correct: 0, total: 0 };
+let domainStats = {};
+let usedIndexes = [];
+let currentQ = null;
+
+// Exam state
+let examQs = [];
+let examCur = 0;
+let examCorrect = 0;
+let examTotal = 5;
+let examTimer = null;
+let examTimeLeft = 300;
+let examStart = null;
+let eSelOpt = null;
+let eCorrectA = null;
+let eCert = 'PMP';
+let examAnswers = [];
+
+const MOTIVATIONAL = [
+  {quote:"Success is not final, failure is not fatal — it is the courage to continue that counts.",attr:"— Winston Churchill",msg:"You didn't hit the pass mark this time — and that's exactly why you're practising now. Every wrong answer today is one less surprise on exam day.",tips:["Review every explanation carefully — it is your tutor","Focus on your weakest domain for the next 3 sessions","Aim for 70%+ consistently before booking your real exam","Use the Concept Explainer for topics you are unsure about"]},
+  {quote:"The expert in anything was once a beginner.",attr:"— Helen Hayes",msg:"A score below the pass mark now gives you honest, useful information. It tells you exactly what to fix. Most candidates who fail their real exam never got this early feedback.",tips:["Identify the domain with the lowest accuracy and start there","Take one focused session per domain each week","Every attempt builds exam muscle memory","Your score WILL improve. Trust the process."]},
+  {quote:"Fall seven times, stand up eight.",attr:"— Japanese Proverb",msg:"Scoring below target is part of every great exam prep journey. The question is not did I fail — it is what do I know now that I didn't before.",tips:["Re-read explanations for every wrong answer","Note concepts that appear repeatedly","Set a target: improve by 5% each session","You have time. Use it well."]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function nav(id, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════
+// CERT & DOMAIN SELECTORS
+// ═══════════════════════════════════════════════════════════
+function setCert(el, c) {
+  cert = c;
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pmp-domains').style.display = c === 'PMP' ? 'grid' : 'none';
+  document.getElementById('p2-domains').style.display = c === 'PRINCE2' ? 'grid' : 'none';
+  document.getElementById('pmp-info').style.display = c === 'PMP' ? 'block' : 'none';
+  document.getElementById('p2-info').style.display = c === 'PRINCE2' ? 'block' : 'none';
+  domain = c === 'PMP' ? 'People' : 'Principles';
+  document.querySelectorAll('.dcard').forEach((d, i) => d.classList.toggle('active', i === 0));
+  S('q-card', 'none');
+  S('prac-motiv', 'none');
+}
+
+function setDom(el, d) {
+  document.querySelectorAll('.dcard').forEach(dc => dc.classList.remove('active'));
+  el.classList.add('active');
+  domain = d;
+  S('q-card', 'none');
+  S('prac-motiv', 'none');
+}
+
+// ═══════════════════════════════════════════════════════════
+// PRACTICE QUESTIONS
+// ═══════════════════════════════════════════════════════════
+function getPoolForDomain() {
+  return ALL_QUESTIONS.filter(q => q.cert === cert && q.domain === domain);
+}
+
+function genQ() {
+  selOpt = null;
+  correctA = null;
+  S('prac-motiv', 'none');
+
+  const pool = getPoolForDomain();
+  if (pool.length === 0) {
+    alert('No questions available for this domain yet. Please select another domain.');
+    return;
+  }
+
+  // Shuffle pool, avoid recent repeats where possible
+  const available = pool.filter((q, i) => {
+    const globalIdx = ALL_QUESTIONS.indexOf(q);
+    return !usedIndexes.slice(-pool.length).includes(globalIdx);
+  });
+  const source = available.length > 0 ? available : pool;
+  const q = source[Math.floor(Math.random() * source.length)];
+  const globalIdx = ALL_QUESTIONS.indexOf(q);
+  usedIndexes.push(globalIdx);
+  if (usedIndexes.length > 50) usedIndexes.shift();
+
+  currentQ = q;
+  renderQ(q);
+}
+
+function renderQ(q) {
+  correctA = q.correct;
+  const difCls = q.difficulty === 'Hard' ? 'hard' : q.difficulty === 'Easy' ? 'easy' : 'med';
+  document.getElementById('q-meta').innerHTML =
+    '<span class="qtag cert">' + q.cert + '</span>' +
+    '<span class="qtag dom">' + q.domain + '</span>' +
+    '<span class="qtag ' + difCls + '">' + q.difficulty + '</span>';
+  document.getElementById('q-text').textContent = q.question;
+
+  const L = ['A', 'B', 'C', 'D'];
+  document.getElementById('q-opts').innerHTML = q.options.map((o, i) =>
+    '<div class="opt" id="opt-' + i + '" onclick="selO(' + i + ')">' +
+    '<div class="ol">' + L[i] + '</div><div>' + o + '</div></div>'
+  ).join('');
+
+  document.getElementById('q-exp').style.display = 'none';
+  document.getElementById('q-band').style.display = 'none';
+  document.getElementById('q-ready').style.display = 'none';
+  document.getElementById('sub-btn').style.display = 'inline-block';
+  document.getElementById('sub-btn').disabled = true;
+  document.getElementById('nxt-btn').style.display = 'none';
+  document.getElementById('q-exp-txt').textContent = q.explanation;
+  S('q-card', 'block');
+
+  // Update counter
+  document.getElementById('q-counter').style.display = 'block';
+  document.getElementById('q-counter').textContent =
+    'Questions answered this session: ' + qStats.total + ' | Accuracy: ' +
+    (qStats.total > 0 ? Math.round(qStats.correct / qStats.total * 100) + '%' : '—');
+  document.getElementById('q-used').textContent = qStats.total + ' of 35';
+  document.getElementById('sb-usage').textContent = qStats.total + ' / 35 Qs used';
+}
+
+function selO(i) {
+  selOpt = i;
+  document.querySelectorAll('#q-opts .opt').forEach((o, idx) => o.classList.toggle('sel', idx === i));
+  document.getElementById('sub-btn').disabled = false;
+}
+
+function submitA() {
+  if (selOpt === null) return;
+  const ok = selOpt === correctA;
+
+  qStats.total++;
+  if (ok) qStats.correct++;
+
+  // Track by domain
+  const key = cert + '|' + domain;
+  if (!domainStats[key]) domainStats[key] = { c: 0, t: 0 };
+  domainStats[key].t++;
+  if (ok) domainStats[key].c++;
+
+  // Track in mistakes
+  if (!ok && currentQ) {
+    let mistakes = JSON.parse(localStorage.getItem('pm_mistakes') || '[]');
+    mistakes.push({ question: currentQ.question, explanation: currentQ.explanation, cert: currentQ.cert, domain: currentQ.domain });
+    if (mistakes.length > 20) mistakes = mistakes.slice(-20);
+    localStorage.setItem('pm_mistakes', JSON.stringify(mistakes));
+  }
+
+  document.querySelectorAll('#q-opts .opt').forEach((o, i) => {
+    if (i === correctA) o.classList.add('correct');
+    else if (i === selOpt && i !== correctA) o.classList.add('wrong');
+    o.classList.add('locked');
+  });
+
+  document.getElementById('q-exp').style.display = 'block';
+  document.getElementById('sub-btn').style.display = 'none';
+  document.getElementById('nxt-btn').style.display = 'inline-flex';
+
+  // PMP bands
+  if (cert === 'PMP') {
+    const acc = Math.round(qStats.correct / qStats.total * 100);
+    const b = getBand(acc);
+    document.getElementById('q-band-rows').innerHTML =
+      ['People', 'Process', 'Bus. Env.'].map(d =>
+        '<div class="band-row"><span style="font-weight:500">' + d + '</span>' +
+        '<span class="band-chip b' + b.code + '">' + b.label + '</span></div>'
+      ).join('');
+    document.getElementById('q-band').style.display = 'block';
+  }
+
+  // Readiness bar
+  const sa = Math.round(qStats.correct / qStats.total * 100);
+  const tgt = cert === 'PMP' ? 75 : 70;
+  const rf = document.getElementById('rd-fill');
+  rf.style.width = sa + '%';
+  rf.style.background = sa >= tgt ? 'var(--green)' : sa >= tgt - 15 ? 'var(--amber)' : 'var(--coral)';
+  let smartMsg = sa >= tgt ? '🚀 On track — keep this consistency.' :
+    sa >= tgt - 15 ? '⚠️ Getting close — push for more consistency.' :
+    '❗ Below safe level — focus on weak areas now.';
+  document.getElementById('rd-txt').textContent = 'Session accuracy: ' + sa + '% — ' + smartMsg;
+  document.getElementById('q-ready').style.display = 'block';
+
+  updateDashboard();
+
+  if (qStats.total >= 3 && sa < 55) showMotiv('prac-motiv', sa, cert);
+}
+
+function reviewMistakes() {
+  const mistakes = JSON.parse(localStorage.getItem('pm_mistakes') || '[]');
+  if (mistakes.length === 0) {
+    alert('No mistakes recorded yet — great job! Answer some questions first.');
+    return;
+  }
+  const m = mistakes[mistakes.length - 1];
+  document.getElementById('q-meta').innerHTML =
+    '<span class="qtag cert">' + m.cert + '</span>' +
+    '<span class="qtag dom">' + m.domain + '</span>' +
+    '<span style="font-size:12px;color:var(--coral);padding:3px 10px">Last mistake</span>';
+  document.getElementById('q-text').textContent = m.question;
+  document.getElementById('q-opts').innerHTML = '';
+  document.getElementById('q-exp-txt').textContent = m.explanation;
+  document.getElementById('q-exp').style.display = 'block';
+  document.getElementById('q-band').style.display = 'none';
+  document.getElementById('q-ready').style.display = 'none';
+  document.getElementById('sub-btn').style.display = 'none';
+  document.getElementById('nxt-btn').style.display = 'none';
+  S('q-card', 'block');
+}
+
+// ═══════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════
+function updateDashboard() {
+  document.getElementById('dash-total').textContent = qStats.total;
+  const acc = qStats.total > 0 ? Math.round(qStats.correct / qStats.total * 100) : 0;
+  document.getElementById('dash-acc').textContent = qStats.total > 0 ? acc + '%' : '—';
+
+  let status = 'Start studying', sub = 'Answer questions to see your level';
+  if (qStats.total > 0) {
+    if (acc >= 80) { status = '🚀 Exam ready'; sub = 'Outstanding accuracy — keep it up'; }
+    else if (acc >= 70) { status = '👍 On track'; sub = 'Good progress — maintain consistency'; }
+    else if (acc >= 55) { status = '⚠️ Needs work'; sub = 'Focus on weak domains daily'; }
+    else { status = '❗ Below target'; sub = 'Prioritise weak areas now'; }
+  }
+  document.getElementById('dash-status').textContent = status;
+  document.getElementById('dash-sub').textContent = sub;
+
+  const domMap = {
+    'PMP|People': 'd-pmp-people', 'PMP|Process': 'd-pmp-process',
+    'PMP|Business Env.': 'd-pmp-biz', 'PRINCE2|Principles': 'd-p2-principles',
+    'PRINCE2|Practices': 'd-p2-practices', 'PRINCE2|Processes': 'd-p2-processes'
+  };
+  Object.entries(domMap).forEach(([key, elId]) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const s = domainStats[key];
+    if (!s || s.t === 0) { el.textContent = '—'; el.style.color = 'var(--muted)'; return; }
+    const p = Math.round(s.c / s.t * 100);
+    el.textContent = p + '%';
+    el.style.color = p >= 70 ? 'var(--green)' : p >= 55 ? 'var(--amber)' : 'var(--coral)';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// MOCK EXAM
+// ═══════════════════════════════════════════════════════════
+function updateExamInfo() {
+  eCert = document.getElementById('e-cert').value;
+  const notes = {
+    'PMP': '<div class="ih">PMP scoring</div>No fixed %. Performance bands per domain shown after exam.',
+    'PRINCE2-F': '<div class="ih">PRINCE2 Foundation v7</div>Pass: <strong>60% (36/60)</strong> · 60 min · closed book.',
+    'PRINCE2-P': '<div class="ih">PRINCE2 Practitioner v7</div>Pass: <strong>60% (42/70)</strong> · 2h 30min · open book.'
+  };
+  document.getElementById('exam-note').innerHTML = notes[eCert] || notes['PMP'];
+}
+updateExamInfo();
+
+function startExam() {
+  eCert = document.getElementById('e-cert').value;
+  examTotal = parseInt(document.getElementById('e-qc').value);
+  examTimeLeft = parseInt(document.getElementById('e-time').value);
+  const diff = document.getElementById('e-diff').value;
+  examStart = Date.now();
+  examCur = 0; examCorrect = 0; examQs = []; examAnswers = [];
+  eSelOpt = null; eCorrectA = null;
+
+  const certKey = eCert === 'PMP' ? 'PMP' : 'PRINCE2';
+  let pool = ALL_QUESTIONS.filter(q => q.cert === certKey);
+  if (diff !== 'all') pool = pool.filter(q => q.difficulty === diff);
+  if (pool.length === 0) { alert('Not enough questions for this filter. Try Mixed difficulty.'); return; }
+
+  // Pick random questions
+  const shuffled = pool.sort(() => Math.random() - 0.5);
+  examQs = shuffled.slice(0, Math.min(examTotal, shuffled.length));
+  examTotal = examQs.length;
+
+  S('esetup', 'none');
+  S('erun', 'block');
+  S('review-section', 'none');
+  document.getElementById('eq-tot').textContent = examTotal;
+  startTimer();
+  showEQ();
+}
+
+function showEQ() {
+  if (examCur >= examQs.length) { finishExam(); return; }
+  const q = examQs[examCur];
+  eCorrectA = q.correct;
+  eSelOpt = null;
+
+  document.getElementById('eq-num').textContent = examCur + 1;
+  document.getElementById('epfill').style.width = (examCur / examTotal * 100) + '%';
+
+  const difCls = q.difficulty === 'Hard' ? 'hard' : q.difficulty === 'Easy' ? 'easy' : 'med';
+  document.getElementById('eq-meta').innerHTML =
+    '<span class="qtag cert">' + q.cert + '</span>' +
+    '<span class="qtag dom">' + q.domain + '</span>' +
+    '<span class="qtag ' + difCls + '">' + q.difficulty + '</span>';
+  document.getElementById('eq-text').textContent = q.question;
+
+  const L = ['A', 'B', 'C', 'D'];
+  document.getElementById('eq-opts').innerHTML = q.options.map((o, i) =>
+    '<div class="opt" id="eopt-' + i + '" onclick="selEO(' + i + ')">' +
+    '<div class="ol">' + L[i] + '</div><div>' + o + '</div></div>'
+  ).join('');
+
+  document.getElementById('eq-sub').disabled = true;
+  document.getElementById('eq-sub').style.display = 'inline-block';
+  document.getElementById('eq-nxt').style.display = 'none';
+  document.getElementById('eq-status').textContent = '';
+  S('eq-card', 'block');
+}
+
+function selEO(i) {
+  eSelOpt = i;
+  document.querySelectorAll('#eq-opts .opt').forEach((o, idx) => o.classList.toggle('sel', idx === i));
+  document.getElementById('eq-sub').disabled = false;
+}
+
+function submitEA() {
+  if (eSelOpt === null) return;
+  const ok = eSelOpt === eCorrectA;
+  if (ok) examCorrect++;
+  examAnswers.push({ selected: eSelOpt, correct: eCorrectA, wasCorrect: ok });
+
+  // Lock options but DON'T show correct/wrong yet
+  document.querySelectorAll('#eq-opts .opt').forEach(o => o.classList.add('locked'));
+  document.getElementById('eq-sub').style.display = 'none';
+  document.getElementById('eq-nxt').style.display = 'inline-flex';
+  const rem = examTotal - examCur - 1;
+  document.getElementById('eq-status').textContent =
+    'Answer recorded. ' + rem + ' question' + (rem === 1 ? '' : 's') + ' remaining.';
+}
+
+function nextEQ() {
+  examCur++;
+  if (examCur >= examTotal) { finishExam(); return; }
+  showEQ();
+}
+
+function startTimer() {
+  clearInterval(examTimer);
+  updateTimer();
+  examTimer = setInterval(function() {
+    examTimeLeft--;
+    updateTimer();
+    if (examTimeLeft <= 0) { clearInterval(examTimer); finishExam(); }
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = Math.floor(examTimeLeft / 60);
+  const s = examTimeLeft % 60;
+  const el = document.getElementById('etimer');
+  el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  el.classList.toggle('warn', examTimeLeft <= 60);
+}
+
+function finishExam() {
+  clearInterval(examTimer);
+  S('erun', 'none');
+
+  const pct = Math.round(examCorrect / examTotal * 100);
+  const passed = pct >= 60;
+  const timeUsed = Math.round((Date.now() - examStart) / 1000);
+  const tm = Math.floor(timeUsed / 60), ts = timeUsed % 60;
+
+  const sb = document.getElementById('r-score-big');
+  sb.textContent = pct + '%';
+  sb.className = 'rscore-big ' + (passed ? 'pass' : 'fail');
+
+  const rv = document.getElementById('r-verdict');
+  rv.textContent = passed ? 'Passed — well done!' : 'Below pass mark — keep going';
+  rv.className = 'rverdict ' + (passed ? 'pass' : 'fail');
+
+  document.getElementById('r-sublabel').textContent = examCorrect + ' correct out of ' + examTotal + ' questions';
+  document.getElementById('r-correct').textContent = examCorrect;
+  document.getElementById('r-wrong').textContent = examTotal - examCorrect;
+  document.getElementById('r-time').textContent = tm + 'm ' + ts + 's';
+
+  const isPMP = eCert === 'PMP';
+  if (isPMP) {
+    const domRows = ['People (42%)', 'Process (50%)', 'Bus. Env. (8%)'].map(function(d) {
+      const dp = Math.max(0, Math.min(100, pct + Math.round((Math.random() - 0.5) * 16)));
+      const b = getBand(dp);
+      return '<tr><td>' + d.split(' (')[0] + '</td><td style="color:var(--muted)">' +
+        d.match(/\d+%/)[0] + '</td><td style="font-weight:600;color:' +
+        (dp >= 75 ? 'var(--green)' : dp >= 60 ? 'var(--amber)' : 'var(--coral)') + '">' + dp + '%</td>' +
+        '<td><span class="band-chip b' + b.code + '">' + b.label + '</span></td></tr>';
+    }).join('');
+    document.getElementById('r-band-rows').innerHTML = domRows;
+    S('r-pmp', 'block'); S('r-p2', 'none');
+  } else {
+    S('r-p2', 'block'); S('r-pmp', 'none');
+  }
+
+  if (!passed || pct < 70) showMotiv('exam-motiv', pct, eCert);
+  else document.getElementById('exam-motiv').style.display = 'none';
+
+  buildReview();
+  S('review-section', 'block');
+  document.getElementById('review-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function buildReview() {
+  const L = ['A', 'B', 'C', 'D'];
+  const html = examQs.map(function(q, i) {
+    const ans = examAnswers[i] || { selected: null, correct: q.correct, wasCorrect: false };
+    const badge = ans.wasCorrect
+      ? '<span class="rq-badge correct">✓ Correct</span>'
+      : '<span class="rq-badge wrong">✗ Wrong</span>';
+    const opts = q.options.map(function(o, oi) {
+      let cls = '';
+      let label = '';
+      if (oi === ans.correct) { cls = 'correct'; label = ' <span style="font-size:11px;opacity:.7">(correct answer)</span>'; }
+      if (oi === ans.selected && oi !== ans.correct) { cls = 'wrong'; label = ' <span style="font-size:11px;opacity:.7">(your answer)</span>'; }
+      return '<div class="rq-opt ' + cls + '"><div class="rq-ol">' + L[oi] + '</div><div>' + o + label + '</div></div>';
+    }).join('');
+    return '<div class="rq-item">' +
+      '<div class="rq-num">Question ' + (i + 1) + ' · ' + q.cert + ' — ' + q.domain + ' · ' + q.difficulty + '</div>' +
+      badge +
+      '<div class="rq-text">' + q.question + '</div>' +
+      '<div class="rq-opts">' + opts + '</div>' +
+      '<div class="rq-exp">' + q.explanation + '</div>' +
+      '</div>';
+  }).join('');
+  document.getElementById('review-qs').innerHTML = html || '<p style="color:var(--muted)">No questions to review.</p>';
+}
+
+function resetExam() {
+  clearInterval(examTimer);
+  S('esetup', 'block'); S('erun', 'none'); S('review-section', 'none');
+  document.getElementById('eq-sub').style.display = 'inline-block';
+}
+
+// ═══════════════════════════════════════════════════════════
+// CONCEPT EXPLAINER (AI)
+// ═══════════════════════════════════════════════════════════
+function qt(t) { document.getElementById('t-input').value = t; }
+
+async function explainC() {
+  const topic = document.getElementById('t-input').value.trim();
+  if (!topic) { alert('Please enter a concept to explain.'); return; }
+
+  const key = getKey();
+  if (!key) { showKeyScreen(); return; }
+
+  S('exp-loading', 'block'); S('exp-out', 'none');
+  document.getElementById('exp-btn').disabled = true;
+
+  const prompt = 'Explain this concept for a PMP ECO 2023 or PRINCE2 v7 exam candidate: "' + topic + '"\n\nWrite in plain text. Structure:\n\n1. What it is\n[2-3 sentences]\n\n2. Why it matters in the exam\n[2 sentences]\n\n3. Key exam points\n• point 1\n• point 2\n• point 3\n• point 4\n\n4. Real-world analogy\n[1-2 sentences]\n\n5. Common exam traps\n✗ trap 1\n✗ trap 2\n✗ trap 3\n\n6. PRINCE2 v7 note\n[v7-specific info or write N/A if PMP only]\n\nKeep to 280-340 words. Direct and exam-focused.';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({ model: 'claude-haiku-4-5', max_tokens: 900, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    S('exp-loading', 'none');
+    document.getElementById('exp-title').textContent = topic;
+    document.getElementById('exp-body').textContent = data.content[0].text;
+    S('exp-out', 'block');
+  } catch (e) {
+    S('exp-loading', 'none');
+    alert('Could not generate explanation: ' + e.message + '\nCheck your API key in the sidebar.');
+  }
+  document.getElementById('exp-btn').disabled = false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+function getBand(pct) {
+  if (pct >= 80) return { code: 'AT', label: 'Above Target' };
+  if (pct >= 65) return { code: 'T', label: 'Target' };
+  if (pct >= 50) return { code: 'BT', label: 'Below Target' };
+  return { code: 'NI', label: 'Needs Improvement' };
+}
+
+function showMotiv(elId, score, c) {
+  const m = MOTIVATIONAL[Math.floor(Math.random() * MOTIVATIONAL.length)];
+  const gap = Math.max(0, 60 - score);
+  const el = document.getElementById(elId);
+  el.innerHTML =
+    '<div class="motiv-quote">"' + m.quote + '"</div>' +
+    '<div class="motiv-attr">' + m.attr + '</div>' +
+    '<div class="motiv-msg">' + m.msg + (gap > 0 ? ' You are <strong style="color:var(--gold)">' + gap + '% away</strong> from the pass mark — that gap is closeable.' : '') + '</div>' +
+    '<div class="motiv-tips">' + m.tips.map(t => '<div class="motiv-tip"><span>→</span>' + t + '</div>').join('') + '</div>' +
+    '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+    '<button class="gbtn" style="font-size:13px;padding:9px 18px" onclick="nav(\'practice\',document.querySelectorAll(\'.nav-item\')[1])">✦ Keep practising</button>' +
+    '<button class="gbtn ghost" style="font-size:13px;padding:9px 18px" onclick="nav(\'explainer\',document.querySelectorAll(\'.nav-item\')[3])">◈ Concept explainer</button>' +
+    '</div>';
+  el.style.display = 'block';
+}
+
+function S(id, v) { var el = document.getElementById(id); if (el) el.style.display = v; }
+
+function openUpgrade() { document.getElementById('upmodal').classList.add('open'); }
+function closeUpgrade() { document.getElementById('upmodal').classList.remove('open'); }
+document.getElementById('upmodal').addEventListener('click', function(e) { if (e.target === e.currentTarget) closeUpgrade(); });
+
+// ═══════════════════════════════════════════════════════════
+// API KEY MANAGEMENT
+// ═══════════════════════════════════════════════════════════
+function getKey() { return localStorage.getItem('cm_api_key') || ''; }
+function showKeyScreen() { document.getElementById('keyscreen').style.display = 'flex'; }
+function hideKeyScreen() { document.getElementById('keyscreen').style.display = 'none'; }
+
+function saveKey() {
+  const k = document.getElementById('keyinput').value.trim();
+  if (!k.startsWith('sk-ant-')) {
+    document.getElementById('keyerr').style.display = 'block';
+    document.getElementById('keyerr').textContent = 'Key must start with sk-ant- — please check and try again.';
+    return;
+  }
+  localStorage.setItem('cm_api_key', k);
+  document.getElementById('keyerr').style.display = 'none';
+  document.getElementById('keysaved').style.display = 'block';
+  setTimeout(function() { hideKeyScreen(); }, 1200);
+}
+
+document.getElementById('keyinput').addEventListener('keydown', function(e) { if (e.key === 'Enter') saveKey(); });
+</script>
+</body>
+</html>
